@@ -1,0 +1,170 @@
+# FutureForge Configuration File
+
+# ============= MODEL ARCHITECTURE =============
+model:
+  name: "FutureForge Hybrid AI"
+  version: "1.0.0"
+  type: "hybrid_ensemble"
+  components:
+    - lstm
+    - kmeans
+    - random_forest
+
+# ============= LSTM CONFIGURATION =============
+lstm:
+  input_shape: [3, 5]  # 3 timesteps, 5 features
+  sequence_length: 3
+  units: 32
+  dense_units: 16
+  activation: "relu"
+  output_units: 1
+  epochs: 40
+  batch_size: 8
+  learning_rate: 0.01
+  optimizer: "adam"
+  loss_function: "mse"
+  verbose: 0
+
+# ============= K-MEANS CLUSTERING =============
+kmeans:
+  n_clusters: 3
+  init: "k-means++"
+  max_iter: 300
+  n_init: 10
+  random_state: 42
+  algorithm: "lloyd"
+
+# ============= RANDOM FOREST REGRESSION =============
+random_forest:
+  n_estimators: 200
+  max_depth: 15
+  min_samples_split: 5
+  min_samples_leaf: 2
+  random_state: 42
+  n_jobs: 1
+  criterion: "squared_error"
+
+# ============= FEATURE SCALING =============
+preprocessing:
+  scaler_type: "StandardScaler"
+  features:
+    - study_hours
+    - sleep_hours
+    - screen_time
+    - mood_score
+
+# ============= OUTPUT THRESHOLDS =============
+scoring:
+  high_threshold: 75
+  medium_threshold: 55
+  low_threshold: 0
+  
+  high_risk: "high"
+  medium_risk: "medium"
+  low_risk: "low"
+  
+  min_score: 0
+  max_score: 100
+  min_confidence: 0
+  max_confidence: 98
+
+# ============= MOOD MAPPING =============
+mood_encoding:
+  focused: 3
+  balanced: 2
+  tired: 1
+  stressed: 0
+
+# ============= INSIGHT PRIORITIES =============
+priority_order:
+  High: 0
+  Medium: 1
+  Low: 2
+
+# ============= PATHS & DIRECTORIES =============
+paths:
+  artifacts_dir: "backend/data/artifacts"
+  dataset_path: "backend/data/dummy_behavior_data.csv"
+  scaler_model: "scaler.joblib"
+  kmeans_model: "kmeans.joblib"
+  random_forest_model: "random_forest.joblib"
+  lstm_model: "lstm_model.keras"
+
+# ============= PERFORMANCE TUNING =============
+performance:
+  cache_predictions: true
+  batch_predictions: true
+  use_gpu: true
+  max_workers: 4
+  timeout_seconds: 30
+
+# ============= INFERENCE SETTINGS =============
+inference:
+  confidence_boost_stable_cluster: 8
+  confidence_boost_balanced_mood: 6
+  confidence_reduction_new_pattern: 5
+  min_confidence_baseline: 72
+
+# ============= FEEDBACK SETTINGS =============
+feedback:
+  max_insights: 5
+  include_confidence: true
+  include_cta: true
+  dedup_insights: true
+  sort_by_priority: true
+
+# ============= LOGGING & MONITORING =============
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  save_predictions: true
+  log_file: "logs/futureforge.log"
+
+# ============= DATA VALIDATION =============
+validation:
+  study_hours_min: 0
+  study_hours_max: 12
+  sleep_hours_min: 0
+  sleep_hours_max: 12
+  screen_time_min: 0
+  screen_time_max: 8
+  
+  allow_null_values: false
+  auto_fill_defaults: false
+
+# ============= FEATURE ENGINEERING =============
+features:
+  base_features:
+    - study_hours
+    - sleep_hours
+    - screen_time
+    - mood_score
+    - previous_score
+  
+  derived_features:
+    - cluster_assignment
+    - lstm_output
+  
+  total_rf_features: 7  # 5 base + 1 cluster + 1 lstm
+
+# ============= HYPERPARAMETER TUNING =============
+tuning:
+  grid_search_enabled: false
+  cross_validation_folds: 5
+  random_seed: 42
+  test_size: 0.2
+
+# ============= API CONFIGURATION =============
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  cors_enabled: true
+  rate_limit: 1000
+
+# ============= DEPLOYMENT =============
+deployment:
+  environment: "production"
+  containerized: true
+  auto_scale: true
+  replicas: 3

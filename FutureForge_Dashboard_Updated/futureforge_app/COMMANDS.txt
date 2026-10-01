@@ -1,0 +1,222 @@
+================================================================================
+                    FUTUREFORGE - COMMAND REFERENCE
+================================================================================
+
+📌 IMPORTANT: Before running any commands, extract the zip and go to the folder:
+   
+   unzip FutureForge_ML_Model.zip
+   cd FutureForge_ML_Model
+
+================================================================================
+1️⃣  INSTALLATION (Run once at the beginning)
+================================================================================
+
+pip install -r requirements.txt
+
+OR install individually:
+
+pip install tensorflow scikit-learn pandas numpy joblib
+
+================================================================================
+2️⃣  TRAINING THE MODEL (Run once to generate artifacts)
+================================================================================
+
+python train.py
+
+✅ Output: "Hybrid model artifacts generated successfully."
+
+================================================================================
+3️⃣  QUICK TEST (Run this first to verify everything works!)
+================================================================================
+
+python quick_predict.py
+
+✅ Shows: Single prediction with results and insights
+
+================================================================================
+4️⃣  FULL EXAMPLES (Best for learning - shows 7 different examples)
+================================================================================
+
+python example_usage.py
+
+✅ Shows:
+   - Single prediction
+   - 4 batch predictions (different user types)
+   - Detailed analysis
+   - Performance metrics
+   - JSON export
+
+================================================================================
+5️⃣  CUSTOM PREDICTION (Your own values)
+================================================================================
+
+python
+
+from hybrid_pipeline import HybridPredictor
+
+predictor = HybridPredictor(
+    dataset_path="backend/data/dummy_behavior_data.csv",
+    artifact_dir="backend/data/artifacts"
+)
+
+result = predictor.predict({
+    "study_hours": 6.5,      # Change these values
+    "sleep_hours": 7.8,
+    "screen_time": 3.2,
+    "mood": "focused"        # Options: focused, balanced, tired, stressed
+})
+
+print(f"Score: {result['future_score']}")
+print(f"Risk: {result['risk']}")
+print(f"Confidence: {result['confidence']}%")
+
+exit()
+
+================================================================================
+6️⃣  START API SERVER (For integration with other apps)
+================================================================================
+
+pip install fastapi uvicorn
+
+python api.py
+
+✅ Server running on: http://localhost:8000
+✅ API Docs: http://localhost:8000/docs
+
+Test with:
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"study_hours": 6.5, "sleep_hours": 7.8, "screen_time": 3.2, "mood": "focused"}'
+
+================================================================================
+7️⃣  ANALYZE DATA
+================================================================================
+
+python
+
+import pandas as pd
+df = pd.read_csv("backend/data/dummy_behavior_data.csv")
+print(df.describe())
+print(df['mood'].value_counts())
+
+exit()
+
+================================================================================
+8️⃣  RUN ALL TESTS & BENCHMARKS
+================================================================================
+
+python example_usage.py    # Shows all examples
+python quick_predict.py    # Quick test
+
+================================================================================
+🎯 RECOMMENDED WORKFLOW FOR FIRST TIME
+================================================================================
+
+Step 1: Extract and Enter
+  unzip FutureForge_ML_Model.zip
+  cd FutureForge_ML_Model
+
+Step 2: Install
+  pip install -r requirements.txt
+
+Step 3: Train (this takes 10-30 seconds)
+  python train.py
+
+Step 4: Quick Test
+  python quick_predict.py
+
+Step 5: View Examples
+  python example_usage.py
+
+Step 6 (Optional): Start API
+  pip install fastapi uvicorn
+  python api.py
+
+✅ DONE! Now you can use the model!
+
+================================================================================
+📊 MOOD VALUES REFERENCE
+================================================================================
+
+Use one of these values for "mood":
+
+  "focused"   - Best state for productivity
+  "balanced"  - Normal working state
+  "tired"     - Need rest
+  "stressed"  - Risk of burnout
+
+================================================================================
+🎯 EXPECTED OUTPUTS
+================================================================================
+
+Score (0-100):
+  🔴 0-54   = Low productivity (needs attention)
+  🟡 55-74  = Medium (room to improve)
+  🟢 75-100 = High (on track)
+
+Risk:
+  🟢 low    = Score ≥ 75
+  🟡 medium = Score 55-74
+  🔴 high   = Score < 55
+
+Confidence:
+  72-98% = How reliable the prediction is
+
+================================================================================
+🐍 PYTHON VERSION CHECK
+================================================================================
+
+python --version
+
+Recommended: Python 3.8 or higher
+
+================================================================================
+❌ TROUBLESHOOTING
+================================================================================
+
+Q: "No module named 'tensorflow'"
+A: Run: pip install tensorflow
+
+Q: "Dataset not found"
+A: Make sure you're in the FutureForge_ML_Model folder
+   Check that backend/data/dummy_behavior_data.csv exists
+
+Q: "No such file or directory"
+A: Make sure you extracted the zip file properly
+   cd FutureForge_ML_Model
+
+Q: Predictions are slow on first run
+A: First run trains models (~2-5 seconds). Next runs are fast (<200ms)
+
+================================================================================
+💡 USEFUL COMMANDS
+================================================================================
+
+Check if all dependencies are installed:
+  python -c "import tensorflow, sklearn, pandas, numpy, joblib; print('✅ OK')"
+
+View folder structure:
+  ls -la  (macOS/Linux)
+  dir     (Windows)
+
+Remove old artifacts and retrain:
+  rm -rf backend/data/artifacts/
+  python train.py
+
+================================================================================
+🚀 QUICK COMMAND REFERENCE
+================================================================================
+
+Installation:          pip install -r requirements.txt
+Train model:           python train.py
+Quick test:            python quick_predict.py
+Full examples:         python example_usage.py
+Start API:             python api.py
+Python shell:          python
+Exit python shell:     exit() or Ctrl+D
+
+================================================================================
+
+👉 START HERE: python quick_predict.py
+
+================================================================================
